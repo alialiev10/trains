@@ -1,0 +1,72 @@
+<button routerLink="/home" class="btn btn-info mb-10px">На главную</button>
+
+<form (ngSubmit)="addTrip()">
+  <mat-form-field>
+    <input matInput name="departureTime" [(ngModel)]="departureTime" type="text">
+    <mat-label>Время отправления</mat-label>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <input matInput name="arrivalTime" [(ngModel)]="arrivalTime" type="text">
+    <mat-label>Время прибытия</mat-label>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <input matInput name="departureCity" [(ngModel)]="departureCity" type="text">
+    <mat-label>Город отправления</mat-label>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <input matInput name="arrivalCity" [(ngModel)]="arrivalCity" type="text">
+    <mat-label>Город прибытия</mat-label>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field>
+    <input matInput name="price" [(ngModel)]="price" type="text">
+    <mat-label>Стоимость билета</mat-label>
+  </mat-form-field>
+  <br>
+
+  <button class="btn btn-info mb-10px">Добавить рейс</button>
+</form>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th colspan="5">
+      РАСПИСАНИЕ ПОЕЗДОВ
+    </th>
+  </tr>
+  <tr>
+    <th>
+      Время отправления
+    </th>
+    <th>
+      Время прибытия
+    </th>
+    <th>
+      Город отправления
+    </th>
+    <th>
+      Город прибытия
+    </th>
+    <th>
+      Стоимость билета
+    </th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let trip of trips">
+    <td>{{trip.departureTime}}</td>
+    <td>{{trip.arrivalTime}}</td>
+    <td>{{trip.departureCity}}</td>
+    <td>{{trip.arrivalCity}}</td>
+    <td>{{trip.price}}</td>
+  </tr>
+  </tbody>
+</table>
