@@ -66,7 +66,9 @@
     <td>{{trip.arrivalTime}}</td>
     <td>{{trip.departureCity}}</td>
     <td>{{trip.arrivalCity}}</td>
-    <td>{{trip.price}}</td>
+    <td>{{trip.price}}
+      <button (click)="deleteTrip()" class="btn btn-danger">Удалить рейс</button>
+    </td>
   </tr>
   </tbody>
 </table>
