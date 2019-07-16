@@ -6,7 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
-  trips: Array <Trip> = [];
+  trips: Array<Trip> = [];
   departureTime: string;
   arrivalTime: string;
   departureCity: string;
@@ -21,9 +21,11 @@ export class ScheduleComponent implements OnInit {
 
   addTrip() {
     const trip = new Trip(this.departureTime, this.arrivalTime, this.departureCity, this.arrivalCity, this.price);
+    if (!this.departureTime || !this.arrivalTime || !this.departureCity || !this.arrivalCity || !this.price)  {
+      return;
+    }
     this.trips.push(trip);
   }
-
 }
 
 class Trip {
