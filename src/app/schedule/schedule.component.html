@@ -61,12 +61,14 @@
   </thead>
 
   <tbody>
-  <tr *ngFor="let trip of trips">
+  <tr *ngFor="let trip of trips; let i = index">
     <td>{{trip.departureTime}}</td>
     <td>{{trip.arrivalTime}}</td>
     <td>{{trip.departureCity}}</td>
     <td>{{trip.arrivalCity}}</td>
-    <td>{{trip.price}}</td>
+    <td>{{trip.price}}
+      <button (click)="deleteTrip(i)" class="btn btn-danger">Удалить рейс</button>
+    </td>
   </tr>
   </tbody>
 </table>
