@@ -26,9 +26,8 @@ export class ScheduleComponent implements OnInit {
     }
     this.trips.push(trip);
   }
-  deleteTrip() {
-    const trip = new Trip(this.departureTime, this.arrivalTime, this.departureCity, this.arrivalCity, this.price);
-    this.trips.splice(1, 1);
+  deleteTrip(index: number) {
+    this.trips.splice(index, 1);
     }
 }
 
