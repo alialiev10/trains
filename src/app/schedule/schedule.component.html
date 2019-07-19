@@ -1,33 +1,38 @@
 <button routerLink="/home" class="btn btn-info mb-10px">На главную</button>
 
-<form (ngSubmit)="addTrip()">
+<form [formGroup]="tripAdditionForm" (ngSubmit)="addTrip()">
   <mat-form-field>
-    <input matInput name="departureTime" [(ngModel)]="departureTime" type="text">
+    <input formControlName="departureTime" matInput type="text">
     <mat-label>Время отправления</mat-label>
+    <mat-error *ngIf="departureTime.errors && departureTime.errors.required">Required</mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
-    <input matInput name="arrivalTime" [(ngModel)]="arrivalTime" type="text">
+    <input formControlName="arrivalTime" matInput type="text">
     <mat-label>Время прибытия</mat-label>
+    <mat-error *ngIf="arrivalTime.errors && arrivalTime.errors.required">Required</mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
-    <input matInput name="departureCity" [(ngModel)]="departureCity" type="text">
+    <input formControlName="departureCity" matInput type="text">
     <mat-label>Город отправления</mat-label>
+    <mat-error *ngIf="departureCity.errors && departureCity.errors.required">Required</mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
-    <input matInput name="arrivalCity" [(ngModel)]="arrivalCity" type="text">
+    <input formControlName="arrivalCity" matInput type="text">
     <mat-label>Город прибытия</mat-label>
+    <mat-error *ngIf="arrivalCity.errors && arrivalCity.errors.required">Required</mat-error>
   </mat-form-field>
   <br>
 
   <mat-form-field>
-    <input matInput name="price" [(ngModel)]="price" type="text">
+    <input formControlName="price" matInput type="text">
     <mat-label>Стоимость билета</mat-label>
+    <mat-error *ngIf="price.errors && price.errors.required">Required</mat-error>
   </mat-form-field>
   <br>
 

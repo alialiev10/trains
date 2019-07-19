@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-schedule',
@@ -6,44 +7,54 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
-  trips: Array<Trip> = [];
-  departureTime: string;
-  arrivalTime: string;
-  departureCity: string;
-  arrivalCity: string;
-  price: number;
+  public trips: Array<Trip> = [];
+  public tripAdditionForm: FormGroup;
 
-  constructor() {
+  public departureTime = new FormControl('', [Validators.required]);
+  public arrivalTime = new FormControl('', [Validators.required]);
+  public departureCity = new FormControl('', [Validators.required]);
+  public arrivalCity = new FormControl('', [Validators.required]);
+  public price = new FormControl('', [Validators.required]);
+
+  constructor(private formBuilder: FormBuilder) {
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
+    this.tripAdditionForm = this.formBuilder.group({
+      departureTime: this.departureTime,
+      arrivalTime: this.arrivalTime,
+      departureCity: this.departureCity,
+      arrivalCity: this.arrivalCity,
+      price: this.price,
+    });
   }
 
-  addTrip() {
-    const trip = new Trip(this.departureTime, this.arrivalTime, this.departureCity, this.arrivalCity, this.price);
-    if (!this.departureTime || !this.arrivalTime || !this.departureCity || !this.arrivalCity || !this.price)  {
+  public addTrip(): void {
+    console.log(this.tripAdditionForm);
+    const trip = new Trip(this.tripAdditionForm.value);
+    if (this.tripAdditionForm.invalid) {
       return;
     }
     this.trips.push(trip);
   }
-  deleteTrip(index: number) {
+
+  public deleteTrip(index: number): void {
     this.trips.splice(index, 1);
-    }
+  }
 }
 
 class Trip {
-  departureTime: string;
-  arrivalTime: string;
-  departureCity: string;
-  arrivalCity: string;
-  price: number;
+  public departureTime: string;
+  public arrivalTime: string;
+  public departureCity: string;
+  public arrivalCity: string;
+  public price: number;
 
-  constructor(departureTime: string, arrivalTime: string, departureCity: string,
-              arrivalCity: string, price: number) {
-    this.departureTime = departureTime;
-    this.arrivalTime = arrivalTime;
-    this.departureCity = departureCity;
-    this.arrivalCity = arrivalCity;
-    this.price = price;
+  constructor(tripAdditionFormValue) {
+    this.departureTime = tripAdditionFormValue.departureTime;
+    this.arrivalTime = tripAdditionFormValue.arrivalTime;
+    this.departureCity = tripAdditionFormValue.departureCity;
+    this.arrivalCity = tripAdditionFormValue.arrivalCity;
+    this.price = tripAdditionFormValue.price;
   }
 }
