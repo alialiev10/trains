@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {LocalStorageService} from '../services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
   public trips: Array<Trip> = [];
   public tripAdditionForm: FormGroup;
 
@@ -16,7 +17,8 @@ export class ScheduleComponent implements OnInit {
   public arrivalCity = new FormControl('', [Validators.required]);
   public price = new FormControl('', [Validators.required]);
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,
+              private ls: LocalStorageService) {
   }
 
   public ngOnInit(): void {
@@ -27,10 +29,16 @@ export class ScheduleComponent implements OnInit {
       arrivalCity: this.arrivalCity,
       price: this.price,
     });
+    this.trips = this.ls.get('trips') || [];
+
+    window.onbeforeunload = () => this.ls.set('trips', this.trips);
+  }
+
+  public ngOnDestroy(): void {
+    this.ls.set('trips', this.trips);
   }
 
   public addTrip(): void {
-    console.log(this.tripAdditionForm);
     const trip = new Trip(this.tripAdditionForm.value);
     if (this.tripAdditionForm.invalid) {
       return;
