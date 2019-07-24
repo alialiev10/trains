@@ -17,6 +17,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public arrivalCity = new FormControl('', [Validators.required]);
   public price = new FormControl('', [Validators.required]);
 
+
   constructor(private formBuilder: FormBuilder,
               private ls: LocalStorageService) {
   }
@@ -49,6 +50,24 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public deleteTrip(index: number): void {
     this.trips.splice(index, 1);
   }
+
+  public editTrip(trip: Trip): void {
+    let isHasUnfilledField: boolean;
+    if (trip.isEditable) {
+      for (const key of Object.keys(trip)) {
+        if (trip[key] === '') {
+          isHasUnfilledField = true;
+          break;
+        }
+      }
+    }
+
+    if (trip.isEditable && isHasUnfilledField) {
+      return;
+    }
+
+    trip.isEditable = !trip.isEditable;
+  }
 }
 
 class Trip {
@@ -57,6 +76,7 @@ class Trip {
   public departureCity: string;
   public arrivalCity: string;
   public price: number;
+  public isEditable: boolean;
 
   constructor(tripAdditionFormValue) {
     this.departureTime = tripAdditionFormValue.departureTime;

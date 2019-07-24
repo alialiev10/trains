@@ -42,7 +42,7 @@
 <table class="table table-striped">
   <thead>
   <tr>
-    <th colspan="5">
+    <th colspan="6">
       РАСПИСАНИЕ ПОЕЗДОВ
     </th>
   </tr>
@@ -62,17 +62,57 @@
     <th>
       Стоимость билета
     </th>
+    <th></th>
   </tr>
   </thead>
 
   <tbody>
   <tr *ngFor="let trip of trips; let i = index">
-    <td>{{trip.departureTime}}</td>
-    <td>{{trip.arrivalTime}}</td>
-    <td>{{trip.departureCity}}</td>
-    <td>{{trip.arrivalCity}}</td>
-    <td>{{trip.price}}
-      <button (click)="deleteTrip(i)" class="btn btn-danger">Удалить рейс</button>
+    <td>
+      <ng-container *ngIf="!trip.isEditable">{{trip.departureTime}}</ng-container>
+      <input *ngIf="trip.isEditable"
+             class="form-control"
+             type="text"
+             [(ngModel)]="trip.departureTime">
+    </td>
+    <td>
+      <ng-container *ngIf="!trip.isEditable">{{trip.arrivalTime}}</ng-container>
+      <input *ngIf="trip.isEditable"
+             class="form-control"
+             type="text"
+             [(ngModel)]="trip.arrivalTime">
+    </td>
+    <td>
+      <ng-container *ngIf="!trip.isEditable">{{trip.departureCity}}</ng-container>
+      <input *ngIf="trip.isEditable"
+             class="form-control"
+             type="text"
+             [(ngModel)]="trip.departureCity">
+    </td>
+    <td>
+      <ng-container *ngIf="!trip.isEditable">{{trip.arrivalCity}}</ng-container>
+      <input *ngIf="trip.isEditable"
+             class="form-control"
+             type="text"
+             [(ngModel)]="trip.arrivalCity">
+    </td>
+    <td>
+      <ng-container *ngIf="!trip.isEditable">{{trip.price}}</ng-container>
+      <input *ngIf="trip.isEditable"
+             class="form-control"
+             type="text"
+             [(ngModel)]="trip.price">
+    </td>
+    <td>
+      <div class="btns">
+        <button (click)="editTrip(trip)"
+                class="btn"
+                [ngClass]="trip.isEditable ? 'btn-success' : 'btn-primary'">
+          <ng-container *ngIf="!trip.isEditable">Редактировать рейс</ng-container>
+          <ng-container *ngIf="trip.isEditable">Сохранить</ng-container>
+        </button>
+        <button [disabled]="trip.isEditable" (click)="deleteTrip(i)" class="btn btn-danger">Удалить рейс</button>
+      </div>
     </td>
   </tr>
   </tbody>
