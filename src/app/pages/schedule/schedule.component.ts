@@ -1,6 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {LocalStorageService} from '../services/local-storage/local-storage.service';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {LocalStorageService} from '../../services/local-storage/local-storage.service';
+import {MatDialog} from '@angular/material';
+import {ConfirmationPopupComponent} from '../../components/confirmation-popup/confirmation-popup.component';
 
 @Component({
   selector: 'app-schedule',
@@ -8,6 +10,9 @@ import {LocalStorageService} from '../services/local-storage/local-storage.servi
   styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
+
+  @ViewChild('tripAdditionNgForm', {static: false}) private tripAdditionNgForm: NgForm;
+
   public trips: Array<Trip> = [];
   public tripAdditionForm: FormGroup;
 
@@ -19,7 +24,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 
   constructor(private formBuilder: FormBuilder,
-              private ls: LocalStorageService) {
+              private ls: LocalStorageService,
+              private dialog: MatDialog) {
   }
 
   public ngOnInit(): void {
@@ -45,10 +51,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       return;
     }
     this.trips.push(trip);
+    this.tripAdditionForm.reset();
+    this.tripAdditionNgForm.resetForm();
   }
 
   public deleteTrip(index: number): void {
-    this.trips.splice(index, 1);
+    const dialogRef = this.dialog.open(ConfirmationPopupComponent, {data: {action: 'удалить рейс'}});
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.trips.splice(index, 1);
+        }
+      });
+    // this.trips.splice(index, 1);
   }
 
   public editTrip(trip: Trip): void {
